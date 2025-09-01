@@ -2,7 +2,7 @@
 
 ## Cel zadania
 Zaimplementuj klasy zgodzie z diagramem klas
-
+:
 ![Diagram klas](class_diagram_Zad12.png)
 
 i testami jednostkowymi umieszczonymi w:.
