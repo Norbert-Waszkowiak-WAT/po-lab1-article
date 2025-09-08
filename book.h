@@ -32,11 +32,13 @@ public:
     int getPublicationYear() const { return publicationYear; }
     vector<Chapter> getChapters() const { return chapters; }
 
-    
-    // Dodawanie rozdziału
+
     void addChapter(const Chapter& chapter) {
         chapters.push_back(chapter);
     }
+    void setTitle(const string& t) { title = t; }
+    void setAuthor(const Author& a) { author = a; }
+    void setPublicationYear(int y) { publicationYear = y; }
 
     bool operator==(const Book& other) const {
         return 

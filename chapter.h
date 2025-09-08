@@ -61,5 +61,8 @@ public:
     bool operator==(const Chapter& other) const {
         return title == other.title && author == other.author && chapterNumber == other.chapterNumber;
     }
-    
+    void setTitle(const std::string& t) { title = t; }
+    void setAuthor(const Author& a) { author = a; }
+    void setChapterNumber(int n) { chapterNumber = n; }
+
 };
