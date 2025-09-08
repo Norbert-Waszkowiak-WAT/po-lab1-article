@@ -65,3 +65,47 @@ TEST_CASE("Book getChapters method returns the chapters", "[getChapters]") {
     REQUIRE(book.getChapters()[0].getTitle() == "Chapter 1");
     REQUIRE(book.getChapters()[1].getTitle() == "Chapter 2");
 }
+
+
+TEST_CASE("Book setTitle, setAuthor, setPublicationYear update fields", "[setters]") {
+    Book book;
+    Author author("Jane", "Austen");
+    book.setTitle("Pride and Prejudice");
+    book.setAuthor(author);
+    book.setPublicationYear(1813);
+    REQUIRE(book.getTitle() == "Pride and Prejudice");
+    REQUIRE(book.getAuthor().getName() == "Jane");
+    REQUIRE(book.getAuthor().getSurname() == "Austen");
+    REQUIRE(book.getPublicationYear() == 1813);
+}
+
+TEST_CASE("Book copy constructor creates an identical copy", "[copy constructor]") {
+    Author author("George", "Orwell");
+    Chapter chapter("Chapter One", author, 1);
+    vector<Chapter> chapters = {chapter};
+    Book original("1984", author, 1949, chapters);
+    Book copy(original);
+    REQUIRE(copy.getTitle() == "1984");
+    REQUIRE(copy.getAuthor().getName() == "George");
+    REQUIRE(copy.getAuthor().getSurname() == "Orwell");
+    REQUIRE(copy.getPublicationYear() == 1949);
+    REQUIRE(copy.getChapters().size() == 1);
+    REQUIRE(copy.getChapters()[0].getTitle() == "Chapter One");
+}
+
+TEST_CASE("Book operator== compares all fields", "[operator==]") {
+    Author author("J.K.", "Rowling");
+    Chapter chapter("The Boy Who Lived", author, 1);
+    vector<Chapter> chapters = {chapter};
+    Book book1("Harry Potter", author, 1997, chapters);
+    Book book2("Harry Potter", author, 1997, chapters);
+    Book book3("Harry Potter", author, 1998, chapters);
+    REQUIRE(book1 == book2);
+    REQUIRE_FALSE(book1 == book3);
+}
+
+TEST_CASE("Book with no chapters returns empty vector", "[chapters][empty]") {
+    Author author("No", "Chapters");
+    Book book("Empty Book", author, 2023, {});
+    REQUIRE(book.getChapters().empty());
+}

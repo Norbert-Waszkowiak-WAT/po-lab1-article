@@ -56,3 +56,43 @@ TEST_CASE("Article getJournal method returns the journal", "[getJournal]") {
     Article article("Sample Title", author, 2023, "Sample Journal");
     REQUIRE(article.getJournal() == "Sample Journal");
 }
+
+TEST_CASE("Tworzenie i modyfikacja artykułu naukowego", "[Article][integration]") {
+    Author author("Maria", "Curie");
+    Article article("O promieniotwórczości", author, 1903, "Comptes Rendus");
+
+    SECTION("Początkowe wartości są poprawne") {
+        REQUIRE(article.getTitle() == "O promieniotwórczości");
+        REQUIRE(article.getAuthor().getName() == "Maria");
+        REQUIRE(article.getAuthor().getSurname() == "Curie");
+        REQUIRE(article.getPublicationYear() == 1903);
+        REQUIRE(article.getJournal() == "Comptes Rendus");
+    }
+
+    SECTION("Zmiana tytułu i czasopisma") {
+        article.setTitle("Nowy tytuł");
+        article.setJournal("Nature");
+        REQUIRE(article.getTitle() == "Nowy tytuł");
+        REQUIRE(article.getJournal() == "Nature");
+    }
+
+    SECTION("Zmiana autora i roku publikacji") {
+        Author newAuthor("Albert", "Einstein");
+        article.setAuthor(newAuthor);
+        article.setPublicationYear(1905);
+        REQUIRE(article.getAuthor().getName() == "Albert");
+        REQUIRE(article.getAuthor().getSurname() == "Einstein");
+        REQUIRE(article.getPublicationYear() == 1905);
+    }
+}
+
+TEST_CASE("Porównywanie artykułów", "[Article][operator==]") {
+    Author a1("Isaac", "Newton");
+    Author a2("Isaac", "Newton");
+    Article art1("Philosophiæ Naturalis Principia Mathematica", a1, 1687, "Royal Society");
+    Article art2("Philosophiæ Naturalis Principia Mathematica", a2, 1687, "Royal Society");
+    Article art3("Opticks", a1, 1704, "Royal Society");
+
+    REQUIRE(art1 == art2);
+    REQUIRE_FALSE(art1 == art3);
+}
