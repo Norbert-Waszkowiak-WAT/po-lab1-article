@@ -1,0 +1,60 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Author
+      id: author
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Author
+        setup-command: ''
+        command: make test_author
+        timeout: 10
+        max-score: 25
+    - name: Article
+      id: article
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Article
+        setup-command: ''
+        command: make test_article
+        timeout: 10
+        max-score: 25
+    - name: Chapter
+      id: chapter
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Chapter
+        setup-command: ''
+        command: make test_chapter
+        timeout: 10
+        max-score: 25
+    - name: Book
+      id: book
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: Book
+        setup-command: ''
+        command: make test_book
+        timeout: 10
+        max-score: 25
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        AUTHOR_RESULTS: "${{steps.author.outputs.result}}"
+        ARTICLE_RESULTS: "${{steps.article.outputs.result}}"
+        CHAPTER_RESULTS: "${{steps.chapter.outputs.result}}"
+        BOOK_RESULTS: "${{steps.book.outputs.result}}"
+      with:
+        runners: author,article,chapter,book
